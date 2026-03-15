@@ -14,6 +14,8 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 
 <body>
@@ -48,7 +50,10 @@
         <span class="badge">Training-free</span>
       </div>
 
-      <h1>WorldCache</h1>
+      <div class="title-wrapper">
+        <img src="assets/brand/worldcache-logo.png" alt="WorldCache Logo" class="main-logo">
+        <h1>WorldCache</h1>
+      </div>
       <p class="hero-subtitle">Content-Aware Caching for Accelerated Video World Models</p>
       <p class="hero-desc">
         WorldCache decides <em>when</em> feature reuse is safe and <em>predicts</em> skipped computation instead of
@@ -362,6 +367,11 @@
           <div class="chart-header">
             <h4>Interactive step-budget view</h4>
             <p>Select a budget to inspect latency and speedup values.</p>
+            <div class="legend" style="margin-bottom: 8px;">
+              <div class="legend-item"><span class="legend-swatch" style="background:#14B8A6;"></span>WorldCache</div>
+              <div class="legend-item"><span class="legend-swatch" style="background:#5B93C9;"></span>DiCache</div>
+              <div class="legend-item"><span class="legend-swatch" style="background:#A8B4C5;"></span>Baseline</div>
+            </div>
             <div class="step-pills" id="budgetStepPills"></div>
           </div>
           <div class="metric-grid compact" id="budgetStats"></div>

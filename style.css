@@ -209,6 +209,24 @@ h4 {
   color: var(--text);
 }
 
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.title-wrapper h1 {
+  margin-bottom: 0 !important;
+}
+
+.main-logo {
+  height: 64px;
+  width: auto;
+  object-fit: contain;
+}
+
 .authors {
   font-size: 0.92rem;
   color: var(--text);

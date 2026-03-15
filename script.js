@@ -84,7 +84,23 @@ const moduleData = [
     label: "SWD",
     title: "Saliency-Weighted Drift",
     plain: "Not every pixel matters equally. SWD focuses the skip decision on regions where errors are most visible, like edges, hands, agents, and manipulated objects.",
-    formula: "skip iff delta_SWD < tau_CFC(v_t)",
+    formula: `\\begin{equation}
+  S_{h,w}
+  = \\operatorname{Var}_d\\!\\!\\left(
+      \\bar{\\mathbf{z}}_t^{(k)}[h, w, :]
+    \\right),
+  \\label{eq:swd_saliency}
+\\end{equation}
+
+\\begin{equation}
+  \\delta_t^{\\text{SWD}}
+  = \\frac{1}{HW} \\sum_{h,w}
+    \\left\\| \\mathbf{z}_t^{(k)}(h,w)
+           - \\mathbf{z}_{t-1}^{(k)}(h,w)
+    \\right\\|_1
+    \\cdot \\left(1 + \\beta_s\\, \\hat{S}_{h,w}\\right),
+  \\label{eq:swd_drift}
+\\end{equation}`,
     why: "Static background drift should not hide important foreground motion. SWD makes the probe care about the parts people notice most.",
     tech: "The saliency map is built from channel variance in probe features, then used to reweight drift so information-rich regions contribute more."
   },
@@ -440,7 +456,11 @@ function renderModuleDetail() {
   document.getElementById("moduleBadge").textContent = item.label;
   document.getElementById("moduleTitle").textContent = item.title;
   document.getElementById("modulePlain").textContent = item.plain;
-  document.getElementById("moduleFormula").textContent = item.formula;
+  const formulaEl = document.getElementById("moduleFormula");
+  formulaEl.innerHTML = item.formula;
+  if (window.MathJax) {
+    MathJax.typesetPromise([formulaEl]).catch((err) => console.error(err));
+  }
   document.getElementById("moduleWhy").textContent = item.why;
   document.getElementById("moduleTech").textContent = item.tech;
 }
