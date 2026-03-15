@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorldCache — Content-Aware Caching for Accelerated Video World Models</title>
+  <meta name="description"
+    content="WorldCache: a training-free content-aware caching framework that accelerates video world models by 2–3× while preserving output quality.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ───── Navigation ───── -->
+  <header class="site-header" id="top">
+    <div class="container nav-bar">
+      <a class="nav-brand" href="#top" aria-label="WorldCache home">
+        <img src="assets/brand/worldcache-icon.svg" alt="" width="32" height="32">
+        <span>WorldCache</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links" id="navMenu">
+        <a href="#overview">Overview</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#budget">Step Budget</a>
+        <a href="#visuals">Visuals</a>
+        <a href="#citation">Citation</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ───── Hero ───── -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badges">
+        <a class="badge badge-accent" href="https://arxiv.org/" target="_blank">ArXiv Paper</a>
+        <a class="badge" href="https://github.com/umair-nawaz/WorldCache" target="_blank">GitHub Code</a>
+        <span class="badge">Training-free</span>
+      </div>
+
+      <h1>WorldCache</h1>
+      <p class="hero-subtitle">Content-Aware Caching for Accelerated Video World Models</p>
+      <p class="hero-desc">
+        WorldCache decides <em>when</em> feature reuse is safe and <em>predicts</em> skipped computation instead of
+        copying stale activations — delivering a stronger speed–quality frontier across Cosmos, WAN2.1, and EgoDex-Eval.
+      </p>
+
+      <p class="authors">
+        Umair Nawaz<sup>1</sup>, Ahmed Heakl<sup>1</sup>, Ufaq Khan<sup>1</sup>, Abdelrahman Shaker<sup>1</sup>,
+        Salman Khan<sup>1</sup>, Fahad Shahbaz Khan<sup>1,2</sup>
+      </p>
+      <div class="affiliations">
+        <span><sup>1</sup> Mohamed bin Zayed University of Artificial Intelligence</span>
+        <span><sup>2</sup> Linköping University</span>
+      </div>
+      <p class="contact">Corresponding: <a href="mailto:umair.nawaz@mbzuai.ac.ae">umair.nawaz@mbzuai.ac.ae</a></p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#results">See Results</a>
+        <a class="btn btn-outline" href="#overview">Overview</a>
+        <a class="btn btn-outline" href="#budget">Step-Budget Scaling</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── Proof bar ───── -->
+  <section class="proof-bar">
+    <div class="container">
+      <div class="proof-grid">
+        <article class="proof-card proof-primary">
+          <span>Main benchmark</span>
+          <strong>2.30×</strong>
+          <small>Cosmos-2.5-2B · I2W</small>
+        </article>
+        <article class="proof-card">
+          <span>Transfer benchmark</span>
+          <strong>2.36×</strong>
+          <small>WAN2.1-1.3B · T2W</small>
+        </article>
+        <article class="proof-card">
+          <span>Robotics evaluation</span>
+          <strong>2.30×</strong>
+          <small>EgoDex-Eval · WAN-14B</small>
+        </article>
+        <article class="proof-card">
+          <span>Long-budget gain</span>
+          <strong>3.10×</strong>
+          <small>100 denoising steps</small>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── Teaser figure (full-width) ───── -->
+  <section class="teaser">
+    <div class="container">
+      <figure class="figure-card reveal">
+        <div class="figure-header">
+          <span class="figure-label">Teaser comparison</span>
+          <button class="zoom-btn zoomable" data-image="Figures/WorldCache-Teaser-Final.svg"
+            data-caption="Qualitative and quantitative comparison of Baseline, FasterCache, DiCache, and WorldCache on Cosmos-Predict2.5-2B.">Enlarge
+            ↗</button>
+        </div>
+        <img src="Figures/WorldCache-Teaser-Final.svg"
+          alt="WorldCache teaser comparison showing stronger speed-quality trade-off.">
+        <figcaption>WorldCache preserves motion, layout, and background structure while reaching the strongest reported
+          speed–quality trade-off.</figcaption>
+      </figure>
+      <div class="pillars reveal">
+        <div class="pillar">
+          <strong>Watch motion</strong>
+          <p>Fast motion tightens the gate so the model recomputes when stale features would be risky.</p>
+        </div>
+        <div class="pillar">
+          <strong>Protect salient regions</strong>
+          <p>Hands, agents, and fine structures count more in the skip decision.</p>
+        </div>
+        <div class="pillar">
+          <strong>Predict, don't copy</strong>
+          <p>Optimal blending makes skipped blocks behave like a careful approximation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+
+    <!-- ───── Overview ───── -->
+    <section class="section" id="overview">
+      <div class="container">
+        <span class="kicker reveal">Overview</span>
+        <h2 class="reveal">Why simple feature reuse breaks in world models</h2>
+        <p class="section-lead reveal">
+          Standard training-free caching methods reuse stale activations whenever average drift looks small. That
+          shortcut can fail in dynamic scenes, where local motion and perceptually important objects change long before
+          the global average signals trouble.
+        </p>
+
+        <div class="card-row reveal">
+          <article class="num-card">
+            <span class="num">01</span>
+            <h3>Static averages hide local motion</h3>
+            <p>Large backgrounds mask meaningful changes in hands, agents, or manipulated objects.</p>
+          </article>
+          <article class="num-card">
+            <span class="num">02</span>
+            <h3>Copying the past is too crude</h3>
+            <p>Frozen snapshots create ghosting, blur, and motion drift once the rollout diverges.</p>
+          </article>
+          <article class="num-card">
+            <span class="num">03</span>
+            <h3>Late denoising has more reuse</h3>
+            <p>After the global layout forms, better caching decisions produce the largest gains.</p>
+          </article>
+        </div>
+
+        <div class="summary-box reveal">
+          <h3>WorldCache treats caching like a careful prediction, not a blind shortcut.</h3>
+          <p>
+            Video world models spend much of their time repeating similar computation across denoising steps. WorldCache
+            saves time by reusing deep features only when the scene is stable enough, then estimating the skipped
+            features with motion-aware approximation.
+          </p>
+          <div class="tag-row">
+            <span class="tag">Training-free</span>
+            <span class="tag">Motion-aware</span>
+            <span class="tag">Saliency-aware</span>
+            <span class="tag">Cosmos + WAN2.1 + EgoDex</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───── Method ───── -->
+    <section class="section section-alt" id="method">
+      <div class="container">
+        <span class="kicker reveal">Method</span>
+        <h2 class="reveal">The four modules in WorldCache</h2>
+        <p class="section-lead reveal">
+          WorldCache changes the skip rule, the reuse rule, and the threshold schedule so that caching follows motion
+          and denoising phase instead of relying on a single fixed heuristic.
+        </p>
+
+        <figure class="figure-card reveal">
+          <div class="figure-header">
+            <span class="figure-label">Pipeline</span>
+            <button class="zoom-btn zoomable" data-image="assets/figures/fig2_pipeline.png"
+              data-caption="Probe blocks, decision gate, OFA reuse path, and cache refresh path.">Enlarge
+              ↗</button>
+          </div>
+          <img src="assets/figures/fig2_pipeline.png" alt="WorldCache pipeline diagram.">
+          <figcaption>Probe blocks estimate drift. Cache hits route through OFA; cache misses execute deep blocks and
+            refresh the cache.</figcaption>
+        </figure>
+
+        <div class="module-panel reveal">
+          <div class="module-tabs" id="moduleTabs"></div>
+          <article class="module-body">
+            <div class="module-head">
+              <span class="module-badge" id="moduleBadge">CFC</span>
+              <h3 id="moduleTitle">Causal Feature Caching</h3>
+            </div>
+            <p id="modulePlain"></p>
+            <code class="formula" id="moduleFormula"></code>
+            <div class="module-notes">
+              <div>
+                <span class="note-label">Why it helps</span>
+                <p id="moduleWhy"></p>
+              </div>
+              <div>
+                <span class="note-label">Paper note</span>
+                <p id="moduleTech"></p>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="two-col reveal">
+          <figure class="figure-card">
+            <div class="figure-header">
+              <span class="figure-label">Saliency map</span>
+              <button class="zoom-btn zoomable" data-image="Figures/saliency-maps.svg"
+                data-caption="Saliency overlay used by SWD.">Enlarge ↗</button>
+            </div>
+            <img src="Figures/saliency-maps.svg" alt="Saliency overlay on rollout frames.">
+            <figcaption>SWD gives more weight to detail-rich regions where caching errors are easiest to notice.
+            </figcaption>
+          </figure>
+          <figure class="figure-card">
+            <div class="figure-header">
+              <span class="figure-label">Adaptive thresholds</span>
+              <button class="zoom-btn zoomable" data-image="Figures/ATS.png"
+                data-caption="Adaptive threshold scheduling captures more late-stage cache hits.">Enlarge
+                ↗</button>
+            </div>
+            <img src="Figures/ATS.png" alt="Adaptive threshold scheduling comparison.">
+            <figcaption>ATS captures more late-stage reuse by matching the threshold to the denoising phase.
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───── Results ───── -->
+    <section class="section" id="results">
+      <div class="container">
+        <span class="kicker reveal">Results</span>
+        <h2 class="reveal">Results across Cosmos, WAN2.1, and EgoDex-Eval</h2>
+        <p class="section-lead reveal">
+          Switch between main benchmarks, transfer results, robotics evaluation, and the unified all-results view.
+        </p>
+
+        <div class="results-shell reveal">
+          <div class="tab-bar centered" id="familyTabs"></div>
+          <div class="tab-bar secondary centered" id="datasetTabs"></div>
+
+          <div id="resultsStandardView">
+            <div class="results-title-block">
+              <h3 id="resultsTitle"></h3>
+              <p id="resultsDescription"></p>
+              <div class="headline-chip" id="resultsHeadline"></div>
+            </div>
+            <div class="metric-grid" id="resultsStats"></div>
+            <div class="two-col">
+              <section class="chart-panel">
+                <div class="chart-header">
+                  <h4 id="frontierTitle">Speed-quality frontier</h4>
+                  <p id="frontierDescription"></p>
+                  <div class="legend" id="frontierLegend"></div>
+                </div>
+                <svg id="frontierChart" viewBox="0 0 620 360" role="img"
+                  aria-label="Speed-quality frontier chart"></svg>
+              </section>
+              <section class="chart-panel">
+                <div class="chart-header">
+                  <h4>Latency comparison</h4>
+                  <p>Lower latency is better. Each bar shows the paper's reported runtime and speedup.</p>
+                </div>
+                <div class="latency-bars" id="latencyBars"></div>
+              </section>
+            </div>
+            <section class="table-panel">
+              <div class="table-header">
+                <span class="figure-label">Table view</span>
+                <h4 id="tableTitle">Paper table values</h4>
+                <p class="table-note" id="tableNote"></p>
+              </div>
+              <div class="table-wrap">
+                <table id="resultsTable"></table>
+              </div>
+            </section>
+          </div>
+
+          <div id="resultsAllView" class="all-results hidden">
+            <div class="results-title-block">
+              <h3>All results at a glance</h3>
+              <p>Main paper results, transfer benchmarks, robotics evaluation, and supplementary comparisons.</p>
+              <div class="headline-chip">Unified view</div>
+            </div>
+            <div class="metric-grid">
+              <article class="metric-card accent"><span>Best world-model
+                  speedup</span><strong>2.36×</strong><small>WAN2.1-1.3B · T2W</small></article>
+              <article class="metric-card accent"><span>Best Cosmos headline</span><strong>2.3×</strong><small>Cosmos-2B
+                  · I2W</small></article>
+              <article class="metric-card accent"><span>Best robotics speedup</span><strong>2.30×</strong><small>EgoDex
+                  · WAN2.1-14B</small></article>
+              <article class="metric-card accent"><span>Longest-step gain</span><strong>3.1×</strong><small>100
+                  denoising steps</small></article>
+            </div>
+            <section class="table-panel">
+              <div class="table-header"><span class="figure-label">Overview matrix</span>
+                <h4>WorldCache across all settings</h4>
+                <p class="table-note">One line per benchmark for fast comparison.</p>
+              </div>
+              <div class="table-wrap">
+                <table id="allSummaryTable"></table>
+              </div>
+            </section>
+            <section class="table-panel">
+              <div class="table-header"><span class="figure-label">World generation</span>
+                <h4>Main and supplementary rows</h4>
+                <p class="table-note">Cosmos, WAN2.1, EasyCache, TeaCache, DiCache, and WorldCache in one view.</p>
+              </div>
+              <div class="table-wrap">
+                <table id="allGenerationTable"></table>
+              </div>
+            </section>
+            <section class="table-panel">
+              <div class="table-header"><span class="figure-label">Robotics evaluation</span>
+                <h4>EgoDex-Eval rows</h4>
+                <p class="table-note">Frame-level PSNR, SSIM, LPIPS, latency, and speedup.</p>
+              </div>
+              <div class="table-wrap">
+                <table id="allRoboticsTable"></table>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───── Step Budget ───── -->
+    <section class="section section-alt" id="budget">
+      <div class="container">
+        <span class="kicker reveal">Scaling</span>
+        <h2 class="reveal">How the gain changes with denoising step budget</h2>
+        <p class="section-lead reveal">
+          Longer denoising trajectories give caching more opportunities. This view tracks latency and speedup across
+          reported step budgets.
+        </p>
+        <section class="chart-panel reveal">
+          <div class="chart-header">
+            <h4>Interactive step-budget view</h4>
+            <p>Select a budget to inspect latency and speedup values.</p>
+            <div class="step-pills" id="budgetStepPills"></div>
+          </div>
+          <div class="metric-grid compact" id="budgetStats"></div>
+          <svg id="budgetChart" viewBox="0 0 620 340" role="img" aria-label="Step budget chart"></svg>
+        </section>
+      </div>
+    </section>
+
+    <!-- ───── Visuals ───── -->
+    <section class="section" id="visuals">
+      <div class="container">
+        <span class="kicker reveal">Visuals</span>
+        <h2 class="reveal">Qualitative evidence across scenes and scales</h2>
+        <p class="section-lead reveal">
+          WorldCache stays closer to the baseline rollout in dynamic and interaction-heavy regions where simpler caching
+          strategies drift.
+        </p>
+        <figure class="figure-card reveal">
+          <div class="figure-header">
+            <span class="figure-label">Qualitative Figure</span>
+            <button class="zoom-btn zoomable" data-image="Figures/WorldCache-Qualitative-Main.svg"
+              data-caption="Qualitative Image2World comparison on PAI-Bench.">Enlarge ↗</button>
+          </div>
+          <img src="Figures/WorldCache-Qualitative-Main.svg" alt="Main qualitative comparison.">
+          <figcaption>WorldCache remains visually closer to the baseline in motion-sensitive regions.</figcaption>
+        </figure>
+        <div class="reveal">
+          <figure class="figure-card">
+            <div class="figure-header">
+              <span class="figure-label">Qualitative Figure</span>
+              <button class="zoom-btn zoomable" data-image="Figures/Supp/WorldCache-1.png"
+                data-caption="Cosmos-2B dashcam crossing scene comparison.">Enlarge ↗</button>
+            </div>
+            <img src="Figures/Supp/WorldCache-1.png" alt="Cosmos-2B crossing scene.">
+            <figcaption>WorldCache better preserves pedestrian identity and background consistency.</figcaption>
+          </figure>
+          <br>
+          <figure class="figure-card">
+            <div class="figure-header">
+              <span class="figure-label">Qualitative Figure</span>
+              <button class="zoom-btn zoomable" data-image="Figures/Supp/WorldCache-2.png"
+                data-caption="Cosmos-14B kitchen interaction scene.">Enlarge ↗</button>
+            </div>
+            <img src="Figures/Supp/WorldCache-2.png" alt="Cosmos-14B kitchen scene.">
+            <figcaption>In kitchen interaction, WorldCache keeps hands and carried objects more stable.</figcaption>
+          </figure>
+        </div>
+        <br>
+        <div class="reveal">
+          <figure class="figure-card">
+            <div class="figure-header">
+              <span class="figure-label">Qualitative Figure</span>
+              <button class="zoom-btn zoomable" data-image="Figures/Supp/Qualitative-3.png"
+                data-caption="Additional qualitative comparison.">Enlarge ↗</button>
+            </div>
+            <img src="Figures/Supp/Qualitative-3.png" alt="Additional qualitative result.">
+            <figcaption>WorldCache maintains visual fidelity in challenging dynamic scenes.</figcaption>
+          </figure>
+          <br>
+          <figure class="figure-card">
+            <div class="figure-header">
+              <span class="figure-label">Qualitative Figure</span>
+              <button class="zoom-btn zoomable" data-image="Figures/Supp/Qualitative-4.png"
+                data-caption="Additional qualitative comparison.">Enlarge ↗</button>
+            </div>
+            <img src="Figures/Supp/Qualitative-4.png" alt="Additional qualitative result.">
+            <figcaption>WorldCache produces temporally consistent outputs across diverse scenarios.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───── Citation ───── -->
+    <section class="section section-alt" id="citation">
+      <div class="container">
+        <span class="kicker reveal">Citation</span>
+        <h2 class="reveal">Reference</h2>
+        <p class="section-lead reveal">If you find WorldCache useful in your research, please consider citing our work.
+        </p>
+
+        <div class="cite-grid reveal">
+          <div class="cite-abstract">
+            <span class="cite-label">Abstract</span>
+            <p>
+              WorldCache is a training-free caching framework for diffusion-transformer world models. It improves both
+              <em>when</em> to reuse features and <em>how</em> to approximate skipped computation through
+              motion-adaptive thresholds, saliency-weighted drift estimation, optimal feature approximation, and
+              adaptive threshold scheduling across denoising steps.
+            </p>
+            <div class="cite-venue">
+              <a class="badge badge-accent" href="https://arxiv.org/" target="_blank">ArXiv Preprint</a>
+              <span>Available on arXiv</span>
+            </div>
+          </div>
+          <div class="cite-bibtex">
+            <div class="cite-bib-head">
+              <span class="cite-label">BibTeX</span>
+              <button class="copy-btn" data-copy-target="bibtex" id="citeCopyBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" />
+                  <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                </svg>
+                <span>Copy</span>
+              </button>
+            </div>
+            <pre id="bibtex"><code>@inproceedings{nawaz2026worldcache,
+  title     = {WorldCache: Content-Aware Caching for
+               Accelerated Video World Models},
+  author    = {Umair Nawaz and Ahmed Heakl and
+               Ufaq Khan and Abdelrahman Shaker and
+               Salman Khan and Fahad Shahbaz Khan},
+  journal   = {arXiv preprint arXiv:2603.XXXXX},
+  year      = {2026}
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ───── Footer ───── -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>WorldCache</strong>
+        <p>Content-aware caching for accelerated video world models.</p>
+      </div>
+      <nav class="footer-links">
+        <a href="#top">Top</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#citation">Cite</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- ───── Lightbox ───── -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+    <figure class="lightbox-fig">
+      <img id="lightboxImage" alt="">
+      <figcaption id="lightboxCaption"></figcaption>
+    </figure>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
