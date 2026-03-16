@@ -75,7 +75,9 @@ const moduleData = [
     label: "CFC",
     title: "Causal Feature Caching",
     plain: "First ask: how much is the scene moving? If motion is strong, be more conservative about reusing cached computation.",
-    formula: "tau_CFC(v_t) = tau_0 / (1 + alpha · v_t)",
+    formula: `\\begin{equation}
+  \\tau_{\\text{CFC}}(v_t) = \\frac{\\tau_0}{1 + \\alpha v_t}
+\\end{equation}`,
     why: "This lowers the chance of a bad cache hit when fast motion would make stale features drift away from the current scene.",
     tech: "The paper anchors motion to t-2 because t-1 may already be an approximated cache hit, which makes the velocity estimate more reliable."
   },
@@ -88,8 +90,7 @@ const moduleData = [
   S_{h,w}
   = \\operatorname{Var}_d\\!\\!\\left(
       \\bar{\\mathbf{z}}_t^{(k)}[h, w, :]
-    \\right),
-  \\label{eq:swd_saliency}
+    \\right)
 \\end{equation}
 
 \\begin{equation}
@@ -98,8 +99,7 @@ const moduleData = [
     \\left\\| \\mathbf{z}_t^{(k)}(h,w)
            - \\mathbf{z}_{t-1}^{(k)}(h,w)
     \\right\\|_1
-    \\cdot \\left(1 + \\beta_s\\, \\hat{S}_{h,w}\\right),
-  \\label{eq:swd_drift}
+    \\cdot \\left(1 + \\beta_s\\, \\hat{S}_{h,w}\\right)
 \\end{equation}`,
     why: "Static background drift should not hide important foreground motion. SWD makes the probe care about the parts people notice most.",
     tech: "The saliency map is built from channel variance in probe features, then used to reweight drift so information-rich regions contribute more."
@@ -109,7 +109,9 @@ const moduleData = [
     label: "OFA",
     title: "Optimal Feature Approximation",
     plain: "If the model decides to skip deep blocks, it should not just copy old features. OFA predicts a better approximation from recent residual history and optional motion alignment.",
-    formula: "gamma* = <Delta_tgt, Delta_src> / (||Delta_src||^2 + eps)",
+    formula: `\\begin{equation}
+  \\gamma^* = \\frac{\\langle \\Delta_{\\text{tgt}}, \\Delta_{\\text{src}} \\rangle}{\\| \\Delta_{\\text{src}} \\|^2 + \\epsilon}
+\\end{equation}`,
     why: "This reduces the directional error that appears when motion curves or changes direction, which is where simple scalar reuse often breaks.",
     tech: "OFA combines optimal state interpolation with optional latent-space motion warping before applying the residual update."
   },
@@ -118,7 +120,9 @@ const moduleData = [
     label: "ATS",
     title: "Adaptive Threshold Scheduling",
     plain: "Early denoising builds the scene, late denoising mostly refines it. ATS stays strict early and relaxes later, where extra cache hits are safer and more rewarding.",
-    formula: "tau_ATS(t) = tau_CFC(v_t) · (1 + beta_d · t / T)",
+    formula: `\\begin{equation}
+  \\tau_{\\text{ATS}}(t) = \\tau_{\\text{CFC}}(v_t) \\cdot \\left(1 + \\beta_d \\frac{t}{T}\\right)
+\\end{equation}`,
     why: "The biggest speedups come late in denoising, after layout and motion are already stable enough that approximation is less risky.",
     tech: "The paper uses tau_0 = 0.08, alpha = 2.0, beta_s = 0.12, and beta_d = 4.0 as default settings across models and tasks."
   }
