@@ -1,4 +1,4 @@
-# WorldCache Website
+# WorldCache
 
 ## Files
 
