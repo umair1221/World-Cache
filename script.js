@@ -134,7 +134,7 @@ const datasets = {
     label: "I2W · 2B",
     title: "Cosmos-Predict2.5 · Image2World · 2B",
     description: "WorldCache reaches 2.3× speedup in the main Cosmos-2B Image2World benchmark while keeping the overall score near the baseline.",
-    headline: "Headline result · 2.3× speedup",
+    headline: "Headline result · 2.30× speedup",
     metricKey: "overall",
     metricLabel: "Overall",
     columns: fullPaiColumns,
@@ -143,18 +143,18 @@ const datasets = {
     frontierTitle: "Overall score vs. speedup",
     frontierDescription: "Higher overall score and higher speedup is better.",
     rows: [
-      { method: "Baseline", cs: 0.919, av: 0.694, ro: 0.811, in: 0.877, hu: 0.840, ph: 0.909, mi: 0.886, domain: 0.845, sc: 0.896, bc: 0.929, ms: 0.982, aq: 0.505, iq: 0.674, oc: 0.212, is: 0.936, ib: 0.952, quality: 0.761, overall: 0.803, latency: 57.04, speedup: 1.00 },
-      { method: "DiCache", cs: 0.899, av: 0.697, ro: 0.791, in: 0.876, hu: 0.828, ph: 0.887, mi: 0.909, domain: 0.835, sc: 0.885, bc: 0.923, ms: 0.980, aq: 0.492, iq: 0.660, oc: 0.212, is: 0.927, ib: 0.940, quality: 0.752, overall: 0.794, latency: 39.68, speedup: 1.46 },
-      { method: "FasterCache", cs: 0.855, av: 0.676, ro: 0.697, in: 0.829, hu: 0.739, ph: 0.851, mi: 0.847, domain: 0.772, sc: 0.800, bc: 0.872, ms: 0.974, aq: 0.432, iq: 0.577, oc: 0.197, is: 0.888, ib: 0.919, quality: 0.708, overall: 0.740, latency: 32.75, speedup: 1.78 },
-      { method: "WorldCache", cs: 0.912, av: 0.708, ro: 0.796, in: 0.876, hu: 0.833, ph: 0.893, mi: 0.890, domain: 0.840, sc: 0.892, bc: 0.926, ms: 0.982, aq: 0.496, iq: 0.661, oc: 0.212, is: 0.931, ib: 0.948, quality: 0.756, overall: 0.798, latency: 25.96, speedup: 2.30 }
+      { method: "Baseline", cs: 0.919, av: 0.694, ro: 0.811, in: 0.877, hu: 0.840, ph: 0.909, mi: 0.886, domain: 0.845, sc: 0.896, bc: 0.929, ms: 0.982, aq: 0.505, iq: 0.674, oc: 0.212, is: 0.936, ib: 0.952, quality: 0.761, overall: 0.803, latency: 55.04, speedup: 1.0 },
+      { method: "DiCache", cs: 0.899, av: 0.697, ro: 0.791, in: 0.876, hu: 0.828, ph: 0.887, mi: 0.909, domain: 0.835, sc: 0.885, bc: 0.923, ms: 0.980, aq: 0.492, iq: 0.660, oc: 0.212, is: 0.927, ib: 0.940, quality: 0.752, overall: 0.794, latency: 39.68, speedup: 1.4 },
+      { method: "FasterCache", cs: 0.855, av: 0.676, ro: 0.697, in: 0.829, hu: 0.739, ph: 0.851, mi: 0.847, domain: 0.772, sc: 0.800, bc: 0.872, ms: 0.974, aq: 0.432, iq: 0.577, oc: 0.197, is: 0.888, ib: 0.919, quality: 0.708, overall: 0.740, latency: 32.75, speedup: 1.7 },
+      { method: "WorldCache", cs: 0.912, av: 0.708, ro: 0.796, in: 0.876, hu: 0.833, ph: 0.893, mi: 0.890, domain: 0.840, sc: 0.892, bc: 0.926, ms: 0.982, aq: 0.496, iq: 0.661, oc: 0.212, is: 0.931, ib: 0.948, quality: 0.756, overall: 0.798, latency: 24.48, speedup: 2.3 }
     ]
   },
   cosmos_i2w_14b: {
     family: "cosmos",
     label: "I2W · 14B",
     title: "Cosmos-Predict2.5 · Image2World · 14B",
-    description: "At 14B scale, WorldCache reduces latency from 210.07 s to 112.24 s while staying almost indistinguishable from the baseline in overall score.",
-    headline: "1.87× speedup · near-baseline quality",
+    description: "At 14B scale, WorldCache reduces latency from 210.07 s to 99.25 s while staying almost indistinguishable from the baseline in overall score.",
+    headline: "2.18× speedup · near-baseline quality",
     metricKey: "overall",
     metricLabel: "Overall",
     columns: fullPaiColumns,
@@ -163,18 +163,18 @@ const datasets = {
     frontierTitle: "Overall score vs. speedup",
     frontierDescription: "WorldCache stays close to baseline quality while moving to a faster point.",
     rows: [
-      { method: "Baseline", cs: 0.920, av: 0.716, ro: 0.826, in: 0.905, hu: 0.849, ph: 0.922, mi: 0.924, domain: 0.860, sc: 0.912, bc: 0.935, ms: 0.988, aq: 0.510, iq: 0.665, oc: 0.213, is: 0.958, ib: 0.966, quality: 0.769, overall: 0.814, latency: 210.07, speedup: 1.00 },
-      { method: "DiCache", cs: 0.913, av: 0.716, ro: 0.826, in: 0.886, hu: 0.844, ph: 0.920, mi: 0.921, domain: 0.855, sc: 0.911, bc: 0.935, ms: 0.988, aq: 0.509, iq: 0.658, oc: 0.212, is: 0.956, ib: 0.965, quality: 0.767, overall: 0.811, latency: 146.04, speedup: 1.44 },
-      { method: "FasterCache", cs: 0.856, av: 0.688, ro: 0.715, in: 0.842, hu: 0.743, ph: 0.869, mi: 0.862, domain: 0.782, sc: 0.813, bc: 0.873, ms: 0.975, aq: 0.437, iq: 0.567, oc: 0.195, is: 0.906, ib: 0.930, quality: 0.712, overall: 0.747, latency: 123.75, speedup: 1.70 },
-      { method: "WorldCache", cs: 0.923, av: 0.727, ro: 0.824, in: 0.901, hu: 0.845, ph: 0.925, mi: 0.909, domain: 0.859, sc: 0.912, bc: 0.935, ms: 0.988, aq: 0.509, iq: 0.664, oc: 0.213, is: 0.957, ib: 0.966, quality: 0.768, overall: 0.813, latency: 112.24, speedup: 1.87 }
+      { method: "Baseline", cs: 0.920, av: 0.716, ro: 0.826, in: 0.905, hu: 0.849, ph: 0.922, mi: 0.924, domain: 0.860, sc: 0.912, bc: 0.935, ms: 0.988, aq: 0.510, iq: 0.665, oc: 0.213, is: 0.958, ib: 0.966, quality: 0.769, overall: 0.814, latency: 210.07, speedup: 1.0 },
+      { method: "DiCache", cs: 0.913, av: 0.716, ro: 0.826, in: 0.886, hu: 0.844, ph: 0.920, mi: 0.921, domain: 0.855, sc: 0.911, bc: 0.935, ms: 0.988, aq: 0.509, iq: 0.658, oc: 0.212, is: 0.956, ib: 0.965, quality: 0.767, overall: 0.811, latency: 146.04, speedup: 1.4 },
+      { method: "FasterCache", cs: 0.856, av: 0.688, ro: 0.715, in: 0.842, hu: 0.743, ph: 0.869, mi: 0.862, domain: 0.782, sc: 0.813, bc: 0.873, ms: 0.975, aq: 0.437, iq: 0.567, oc: 0.195, is: 0.906, ib: 0.930, quality: 0.712, overall: 0.747, latency: 123.75, speedup: 1.7 },
+      { method: "WorldCache", cs: 0.923, av: 0.727, ro: 0.824, in: 0.901, hu: 0.845, ph: 0.925, mi: 0.909, domain: 0.859, sc: 0.912, bc: 0.935, ms: 0.988, aq: 0.509, iq: 0.664, oc: 0.213, is: 0.957, ib: 0.966, quality: 0.768, overall: 0.813, latency: 99.25, speedup: 2.18 }
     ]
   },
   cosmos_t2w_2b: {
     family: "cosmos",
     label: "T2W · 2B",
     title: "Cosmos-Predict2.5 · Text2World · 2B",
-    description: "WorldCache reduces latency from 58.34 s to 26.78 s while keeping the overall score at 0.745 versus 0.748 for the baseline.",
-    headline: "2.18× speedup · 99.6% score retention",
+    description: "WorldCache reduces latency from 54.34 s to 26.28 s while keeping the overall score at 0.745 versus 0.748 for the baseline.",
+    headline: "2.10× speedup · 99.6% score retention",
     metricKey: "overall",
     metricLabel: "Overall",
     columns: fullPaiColumns,
@@ -183,18 +183,18 @@ const datasets = {
     frontierTitle: "Overall score vs. speedup",
     frontierDescription: "WorldCache is the strongest frontier point in the 2B Text2World setting.",
     rows: [
-      { method: "Baseline", cs: 0.759, av: 0.643, ro: 0.724, in: 0.820, hu: 0.769, ph: 0.859, mi: 0.846, domain: 0.767, sc: 0.909, bc: 0.929, ms: 0.979, aq: 0.501, iq: 0.712, oc: 0.199, is: 0.788, ib: 0.808, quality: 0.728, overall: 0.748, latency: 58.34, speedup: 1.00 },
-      { method: "DiCache", cs: 0.756, av: 0.631, ro: 0.707, in: 0.799, hu: 0.773, ph: 0.849, mi: 0.833, domain: 0.759, sc: 0.902, bc: 0.925, ms: 0.978, aq: 0.493, iq: 0.705, oc: 0.197, is: 0.780, ib: 0.838, quality: 0.727, overall: 0.743, latency: 40.82, speedup: 1.43 },
-      { method: "FasterCache", cs: 0.675, av: 0.553, ro: 0.549, in: 0.691, hu: 0.652, ph: 0.719, mi: 0.745, domain: 0.629, sc: 0.849, bc: 0.909, ms: 0.970, aq: 0.405, iq: 0.594, oc: 0.176, is: 0.709, ib: 0.796, quality: 0.676, overall: 0.652, latency: 34.51, speedup: 1.69 },
-      { method: "WorldCache", cs: 0.759, av: 0.639, ro: 0.735, in: 0.810, hu: 0.760, ph: 0.845, mi: 0.839, domain: 0.763, sc: 0.903, bc: 0.927, ms: 0.979, aq: 0.492, iq: 0.703, oc: 0.196, is: 0.782, ib: 0.826, quality: 0.727, overall: 0.745, latency: 26.78, speedup: 2.18 }
+      { method: "Baseline", cs: 0.759, av: 0.643, ro: 0.724, in: 0.820, hu: 0.769, ph: 0.859, mi: 0.846, domain: 0.767, sc: 0.909, bc: 0.929, ms: 0.979, aq: 0.501, iq: 0.712, oc: 0.199, is: 0.788, ib: 0.808, quality: 0.728, overall: 0.748, latency: 54.34, speedup: 1.0 },
+      { method: "DiCache", cs: 0.756, av: 0.631, ro: 0.707, in: 0.799, hu: 0.773, ph: 0.849, mi: 0.833, domain: 0.759, sc: 0.902, bc: 0.925, ms: 0.978, aq: 0.493, iq: 0.705, oc: 0.197, is: 0.780, ib: 0.838, quality: 0.727, overall: 0.743, latency: 40.82, speedup: 1.3 },
+      { method: "FasterCache", cs: 0.675, av: 0.553, ro: 0.549, in: 0.691, hu: 0.652, ph: 0.719, mi: 0.745, domain: 0.629, sc: 0.849, bc: 0.909, ms: 0.970, aq: 0.405, iq: 0.594, oc: 0.176, is: 0.709, ib: 0.796, quality: 0.676, overall: 0.652, latency: 34.51, speedup: 1.6 },
+      { method: "WorldCache", cs: 0.759, av: 0.639, ro: 0.735, in: 0.810, hu: 0.760, ph: 0.845, mi: 0.839, domain: 0.763, sc: 0.903, bc: 0.927, ms: 0.979, aq: 0.492, iq: 0.703, oc: 0.196, is: 0.782, ib: 0.826, quality: 0.727, overall: 0.745, latency: 26.28, speedup: 2.1 }
     ]
   },
   cosmos_t2w_14b: {
     family: "cosmos",
     label: "T2W · 14B",
     title: "Cosmos-Predict2.5 · Text2World · 14B",
-    description: "At 14B scale, WorldCache reaches 114.76 s latency and slightly improves the overall score relative to the baseline.",
-    headline: "1.90× speedup · slight score gain",
+    description: "At 14B scale, WorldCache reaches 98.61 s latency and slightly improves the overall score relative to the baseline.",
+    headline: "2.14× speedup · slight score gain",
     metricKey: "overall",
     metricLabel: "Overall",
     columns: fullPaiColumns,
@@ -203,10 +203,10 @@ const datasets = {
     frontierTitle: "Overall score vs. speedup",
     frontierDescription: "WorldCache moves up and to the right on the speed-quality plot.",
     rows: [
-      { method: "Baseline", cs: 0.782, av: 0.643, ro: 0.762, in: 0.828, hu: 0.794, ph: 0.900, mi: 0.880, domain: 0.792, sc: 0.940, bc: 0.948, ms: 0.988, aq: 0.518, iq: 0.719, oc: 0.202, is: 0.806, ib: 0.846, quality: 0.746, overall: 0.769, latency: 216.25, speedup: 1.00 },
-      { method: "DiCache", cs: 0.795, av: 0.645, ro: 0.757, in: 0.819, hu: 0.790, ph: 0.906, mi: 0.880, domain: 0.792, sc: 0.939, bc: 0.949, ms: 0.988, aq: 0.518, iq: 0.714, oc: 0.201, is: 0.806, ib: 0.845, quality: 0.745, overall: 0.768, latency: 148.36, speedup: 1.45 },
-      { method: "FasterCache", cs: 0.707, av: 0.564, ro: 0.584, in: 0.710, hu: 0.677, ph: 0.773, mi: 0.785, domain: 0.659, sc: 0.884, bc: 0.930, ms: 0.979, aq: 0.427, iq: 0.604, oc: 0.180, is: 0.731, ib: 0.821, quality: 0.694, overall: 0.676, latency: 126.60, speedup: 1.70 },
-      { method: "WorldCache", cs: 0.792, av: 0.659, ro: 0.751, in: 0.838, hu: 0.794, ph: 0.908, mi: 0.879, domain: 0.795, sc: 0.940, bc: 0.948, ms: 0.987, aq: 0.517, iq: 0.718, oc: 0.201, is: 0.804, ib: 0.856, quality: 0.746, overall: 0.771, latency: 114.76, speedup: 1.90 }
+      { method: "Baseline", cs: 0.782, av: 0.643, ro: 0.762, in: 0.828, hu: 0.794, ph: 0.900, mi: 0.880, domain: 0.792, sc: 0.940, bc: 0.948, ms: 0.988, aq: 0.518, iq: 0.719, oc: 0.202, is: 0.806, ib: 0.846, quality: 0.746, overall: 0.769, latency: 216.25, speedup: 1.0 },
+      { method: "DiCache", cs: 0.795, av: 0.645, ro: 0.757, in: 0.819, hu: 0.790, ph: 0.906, mi: 0.880, domain: 0.792, sc: 0.939, bc: 0.949, ms: 0.988, aq: 0.518, iq: 0.714, oc: 0.201, is: 0.806, ib: 0.845, quality: 0.745, overall: 0.768, latency: 148.36, speedup: 1.4 },
+      { method: "FasterCache", cs: 0.707, av: 0.564, ro: 0.584, in: 0.710, hu: 0.677, ph: 0.773, mi: 0.785, domain: 0.659, sc: 0.884, bc: 0.930, ms: 0.979, aq: 0.427, iq: 0.604, oc: 0.180, is: 0.731, ib: 0.821, quality: 0.694, overall: 0.676, latency: 126.6, speedup: 1.7 },
+      { method: "WorldCache", cs: 0.792, av: 0.659, ro: 0.751, in: 0.838, hu: 0.794, ph: 0.908, mi: 0.879, domain: 0.795, sc: 0.940, bc: 0.948, ms: 0.987, aq: 0.517, iq: 0.718, oc: 0.201, is: 0.804, ib: 0.856, quality: 0.746, overall: 0.771, latency: 98.61, speedup: 2.14 }
     ]
   },
   wan_t2w_13b: {
@@ -261,9 +261,9 @@ const datasets = {
     frontierTitle: "PSNR vs. speedup",
     frontierDescription: "Higher PSNR and higher speedup are better for this robotics evaluation view.",
     rows: [
-      { method: "Baseline", psnr: 13.30, ssim: 0.503, lpips: 0.459, latency: 391.90, speedup: 1.00 },
-      { method: "DiCache", psnr: 12.95, ssim: 0.491, lpips: 0.461, latency: 208.60, speedup: 1.88 },
-      { method: "WorldCache", psnr: 13.19, ssim: 0.498, lpips: 0.460, latency: 171.60, speedup: 2.30 }
+      { method: "Baseline", psnr: 13.30, ssim: 0.503, lpips: 0.459, latency: 391.9, speedup: 1.0 },
+      { method: "DiCache", psnr: 12.95, ssim: 0.491, lpips: 0.461, latency: 208.6, speedup: 1.88 },
+      { method: "WorldCache", psnr: 13.19, ssim: 0.498, lpips: 0.460, latency: 171.6, speedup: 2.3 }
     ]
   },
   egodex_cosmos2b: {
@@ -318,12 +318,12 @@ const datasets = {
     frontierTitle: "Overall score vs. speedup",
     frontierDescription: "The supplementary table makes the speed gap easy to see.",
     rows: [
-      { method: "Baseline", domain: 0.7670, quality: 0.7280, overall: 0.7475, latency: 58.34, speedup: 1.00 },
-      { method: "EasyCache", domain: 0.7641, quality: 0.7262, overall: 0.7451, latency: 41.41, speedup: 1.40 },
-      { method: "DiCache", domain: 0.7590, quality: 0.7272, overall: 0.7431, latency: 40.82, speedup: 1.43 },
-      { method: "TeaCache (Fast)", domain: 0.7616, quality: 0.7266, overall: 0.7448, latency: 41.07, speedup: 1.42 },
-      { method: "TeaCache (Slow)", domain: 0.7634, quality: 0.7274, overall: 0.7454, latency: 49.40, speedup: 1.18 },
-      { method: "WorldCache", domain: 0.7630, quality: 0.7270, overall: 0.7450, latency: 26.78, speedup: 2.18 }
+      { method: "Baseline", domain: 0.7670, quality: 0.7280, overall: 0.7475, latency: 54.34, speedup: 1.0 },
+      { method: "EasyCache", domain: 0.7641, quality: 0.7262, overall: 0.7451, latency: 41.41, speedup: 1.3 },
+      { method: "DiCache", domain: 0.7590, quality: 0.7272, overall: 0.7431, latency: 40.82, speedup: 1.3 },
+      { method: "TeaCache (Fast)", domain: 0.7616, quality: 0.7266, overall: 0.7448, latency: 41.07, speedup: 1.4 },
+      { method: "TeaCache (Slow)", domain: 0.7634, quality: 0.7274, overall: 0.7454, latency: 49.4, speedup: 1.1 },
+      { method: "WorldCache", domain: 0.7630, quality: 0.7270, overall: 0.7450, latency: 26.28, speedup: 2.1 }
     ]
   },
   supp_i2w_cosmos2b: {
@@ -340,12 +340,12 @@ const datasets = {
     frontierTitle: "Overall score vs. speedup",
     frontierDescription: "WorldCache separates from the cluster of ~1.4× methods while staying competitive on overall score.",
     rows: [
-      { method: "Baseline", domain: 0.8450, quality: 0.7610, overall: 0.8030, latency: 57.04, speedup: 1.00 },
-      { method: "EasyCache", domain: 0.8399, quality: 0.7552, overall: 0.7975, latency: 40.25, speedup: 1.42 },
-      { method: "DiCache", domain: 0.8352, quality: 0.7522, overall: 0.7941, latency: 39.68, speedup: 1.46 },
-      { method: "TeaCache (Fast)", domain: 0.8381, quality: 0.7549, overall: 0.7965, latency: 41.00, speedup: 1.39 },
-      { method: "TeaCache (Slow)", domain: 0.8396, quality: 0.7562, overall: 0.7979, latency: 49.59, speedup: 1.15 },
-      { method: "WorldCache", domain: 0.8395, quality: 0.7559, overall: 0.7977, latency: 25.06, speedup: 2.30 }
+      { method: "Baseline", domain: 0.8450, quality: 0.7610, overall: 0.8030, latency: 55.04, speedup: 1.0 },
+      { method: "EasyCache", domain: 0.8399, quality: 0.7552, overall: 0.7975, latency: 40.25, speedup: 1.3 },
+      { method: "DiCache", domain: 0.8352, quality: 0.7522, overall: 0.7941, latency: 39.68, speedup: 1.3 },
+      { method: "TeaCache (Fast)", domain: 0.8381, quality: 0.7549, overall: 0.7965, latency: 41.0, speedup: 1.3 },
+      { method: "TeaCache (Slow)", domain: 0.8396, quality: 0.7562, overall: 0.7979, latency: 49.59, speedup: 1.1 },
+      { method: "WorldCache", domain: 0.8395, quality: 0.7559, overall: 0.7977, latency: 24.48, speedup: 2.3 }
     ]
   }
 };
@@ -359,7 +359,7 @@ const families = [
 ];
 
 const budgetData = [
-  { steps: 35, worldcacheLatency: 25.0, worldcacheSpeedup: 2.3, dicacheSpeedup: 1.5, baselineLatency: 57.0 },
+  { steps: 35, worldcacheLatency: 24.48, worldcacheSpeedup: 2.3, dicacheSpeedup: 1.5, baselineLatency: 55.04 },
   { steps: 70, worldcacheLatency: 34.2, worldcacheSpeedup: 2.9, dicacheSpeedup: 1.6 },
   { steps: 100, worldcacheLatency: 45.5, worldcacheSpeedup: 3.1, dicacheSpeedup: 1.7 },
   { steps: 140, worldcacheLatency: 66.0, worldcacheSpeedup: 3.0, dicacheSpeedup: 2.3, baselineLatency: 199.1 }
