@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WorldCache — Content-Aware Caching for Accelerated Video World Models</title>
   <meta name="description"
-    content="WorldCache: a training-free content-aware caching framework that accelerates video world models by 2–3× while preserving output quality.">
+    content="Accepted to ECCV 2026, WorldCache is a training-free content-aware caching framework that accelerates video world models by 2–3× while preserving output quality.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,6 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 
@@ -54,6 +53,11 @@
         <h1>WorldCache</h1>
       </div>
       <p class="hero-subtitle">Content-Aware Caching for Accelerated Video World Models</p>
+      <div class="hero-announcement" role="note" aria-label="WorldCache accepted at ECCV 2026">
+        <span class="announcement-kicker">Paper accepted at</span>
+        <strong>ECCV 2026</strong>
+        <span>European Conference on Computer Vision</span>
+      </div>
       <p class="hero-desc">
         WorldCache decides <em>when</em> feature reuse is safe and <em>predicts</em> skipped computation instead of
         copying stale activations — delivering a stronger speed–quality frontier across Cosmos, WAN2.1, and DreamDojo.
@@ -161,8 +165,9 @@
             adaptive threshold scheduling across denoising steps.
           </p>
           <div class="cite-venue">
+            <span class="badge badge-venue">Accepted at ECCV 2026</span>
             <a class="badge badge-accent" href="https://arxiv.org/abs/2603.22286/" target="_blank">ArXiv Preprint</a>
-            <span>Available on arXiv</span>
+            <span>European Conference on Computer Vision.</span>
           </div>
         </div>
 
@@ -446,8 +451,8 @@
       <div class="container">
         <span class="kicker reveal">Citation</span>
         <h2 class="reveal">Reference</h2>
-        <p class="section-lead reveal">If you find WorldCache useful in your research, please consider citing our work.
-        </p>
+        <p class="section-lead reveal">WorldCache has been accepted to ECCV 2026. If you find it useful in your
+          research, please consider citing our work.</p>
 
         <div class="cite-grid reveal">
           <div class="cite-bibtex">
@@ -462,12 +467,14 @@
                 <span>Copy</span>
               </button>
             </div>
-            <pre id="bibtex"><code>@article{nawaz2026worldcache,
+            <pre id="bibtex"><code>@inproceedings{nawaz2026worldcache,
   title = {WorldCache: Content-Aware Caching for Accelerated Video World Models},
   author = {Umair Nawaz and Ahmed Heakl and Ufaq Khan and Abdelrahman Shaker and Salman Khan and Fahad Shahbaz Khan},
+  booktitle = {European Conference on Computer Vision (ECCV)},
   eprint = {2603.22286},
   archivePrefix = {arXiv},
   primaryClass = {cs.CV},
+  note = {Accepted},
   url = {https://arxiv.org/abs/2603.22286},
   year = {2026}
 }</code></pre>
